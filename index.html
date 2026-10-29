@@ -1,0 +1,52 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#21150f">
+  <meta name="description" content="Your Kumbakonam Degree Coffee mobile hub.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="coffee.png">
+  <title>Kumbakonam Degree Coffee</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #160f0b; color: #fff8ee; }
+    * { box-sizing: border-box; }
+    body { min-height: 100svh; margin: 0; display: grid; place-items: center; padding: max(20px, env(safe-area-inset-top)) 20px max(20px, env(safe-area-inset-bottom)); background: radial-gradient(ellipse at 50% 28%, #59321e 0, #281910 42%, #160f0b 78%); }
+    main { width: min(100%, 420px); text-align: center; }
+    .icon { width: 116px; height: 116px; object-fit: cover; border-radius: 28px; box-shadow: 0 16px 48px #0008; }
+    .eyebrow { margin: 28px 0 8px; color: #e5b77f; letter-spacing: .16em; text-transform: uppercase; font-size: .75rem; font-weight: 700; }
+    h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 9vw, 3rem); line-height: 1.05; }
+    .copy { max-width: 310px; margin: 16px auto 28px; color: #d4c4b4; line-height: 1.6; }
+    .open { display: block; width: 100%; padding: 16px 20px; border: 0; border-radius: 16px; background: #d78b43; color: #21150f; font-size: 1rem; font-weight: 800; text-decoration: none; box-shadow: 0 8px 24px #0004; transition: transform .15s, background .15s; }
+    .open:active { transform: scale(.98); background: #e69b52; }
+    #install { display: none; width: 100%; margin-top: 12px; padding: 13px 18px; border: 1px solid #765237; border-radius: 14px; background: #322116; color: #fff1de; font: inherit; font-weight: 650; }
+    .hint { margin-top: 22px; color: #a89583; font-size: .82rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="icon" src="coffee.png" alt="Kumbakonam Degree Coffee">
+    <p class="eyebrow">Coffee • Culture • Kumbakonam</p>
+    <h1>Kumbakonam<br>Degree Coffee</h1>
+    <p class="copy">Ungal favourite coffee experience, one tap-la.</p>
+    <a class="open" href="https://pandiyanbharathi201994-crypto.github.io/kumbakonam-degree-coffee/">Open Coffee App <span aria-hidden="true">→</span></a>
+    <button id="install" type="button">Install App</button>
+    <p class="hint">Home screen-la add panni easy-aa open pannunga.</p>
+  </main>
+  <script>
+    let installPrompt;
+    const installButton = document.querySelector('#install');
+    window.addEventListener('beforeinstallprompt', event => {
+      event.preventDefault(); installPrompt = event; installButton.style.display = 'block';
+    });
+    installButton.addEventListener('click', async () => {
+      if (!installPrompt) return;
+      installPrompt.prompt(); await installPrompt.userChoice; installPrompt = null; installButton.style.display = 'none';
+    });
+    window.addEventListener('appinstalled', () => { installButton.style.display = 'none'; });
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>
